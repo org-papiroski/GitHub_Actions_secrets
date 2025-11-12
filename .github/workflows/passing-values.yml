@@ -24,11 +24,16 @@ jobs:
         id: sentence_maker
         run: |
           # USTAW ZMIENNĄ ŚRODOWISKOWĄ
-          echo "message=Hello from producer!" >> $GITHUB_ENV
+          echo "message=Hello from producer!" >> $GITHUB_OUTPUT
+    outputs:
+      message: "${{ steps.sentence_maker.outputs.message }}"
+          
 
   consumer:
     runs-on: ubuntu-latest
     needs: producer
+    env:
+      message: "${{ needs.producer.outputs.message }}"
     steps:
       - name: Print the message
         run: |
