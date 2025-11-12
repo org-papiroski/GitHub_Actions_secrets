@@ -7,13 +7,11 @@ env:
 
 jobs:
   display-variables:
-    # 1️⃣ — job name pokazuje wartość configuration variable ENVIRONMENT_VAR
     name: ${{ vars.ENVIRONMENT_VAR }}
     runs-on: ubuntu-latest
     env:
       JOB_VAR: "Zmienna z poziomu joba"
     steps:
-      # 2️⃣ — step wypisujący wszystkie zmienne (tak jak w zadaniu)
       - name: Use variables 1
         env:
           STEP_VAR: "Zmienna z poziomu stepu"
@@ -33,7 +31,6 @@ jobs:
           echo "Powinna być zmienna w scopie joba: $JOB_VAR"
           echo "NIE powinna być zmienna w scopie stepu: $STEP_VAR"
 
-      # 3️⃣ — step wypisujący wszystkie zmienne środowiskowe (Linux: env)
       - name: Pokaż wszystkie zmienne środowiskowe
         run: env
 
