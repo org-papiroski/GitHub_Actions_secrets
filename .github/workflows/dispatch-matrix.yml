@@ -1,0 +1,39 @@
+name: dispatch-matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Select log level"
+        required: true
+        default: warning
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      environment:
+        description: "Environment to deploy to"
+        required: true
+        type: environment
+      matrix:
+        description: "Matrix JSON string"
+        required: true
+        type: string
+
+jobs:
+  log-the-inputs:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{ fromJSON(inputs.matrix) }}
+    steps:
+      - name: Log the inputs
+        run: |
+          echo "Log level: $LEVEL"
+          echo "Environment: $ENVIRONMENT"
+          echo "Running for matrix combination:"
+          echo "Version: ${{ matrix.version }}"
+          echo "OS: ${{ matrix.os }}"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          ENVIRONMENT: ${{ inputs.environment }}
